@@ -1,0 +1,92 @@
+/* Fondo oscuro y texto claro */
+.stats-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  height: 100vh; /* Ocupar toda la altura de la ventana */
+  width: 100vw; /* Ocupar toda la anchura de la ventana */
+}
+
+.stats-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  width: 90vw; /* Ajustar al ancho de la ventana */
+  max-width: 600px; /* Limitar el ancho máximo en pantallas grandes */
+
+  margin: 20px auto; /* Centrar el componente en pantallas grandes */
+  padding: 10px;
+
+  background-color: #1e1e1e; /* Fondo negro oscuro */
+  border: 1px solid #333; /* Borde gris oscuro */
+  border-radius: 8px; /* Bordes redondeados */
+}
+
+h2 {
+  color: #ffff;
+  font-weight: 500;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+
+  padding: 10px;
+
+  border-bottom: 1px solid #333; /* Línea divisoria gris oscuro */
+  color: #e0e0e0; /* Texto gris claro tirando a blanco */
+}
+
+.stat-item:last-child {
+  border-bottom: none; /* Quitar el borde inferior del último elemento */
+}
+
+.stat-text {
+  display: flex;
+  justify-content: space-between;
+  font-size: 18px; /* Reducir ligeramente para mejor adaptación */
+  color: #f5f5f5; /* Color del texto blanco suave */
+}
+
+.bottom-right-buttons {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+
+.button {
+  background-color: #333; /* Fondo gris oscuro */
+  color: #fff; /* Texto blanco */
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #555; /* Color más claro al pasar el cursor */
+}
+
+/* Media queries para pantallas más pequeñas */
+@media (max-width: 768px) {
+  .stats-section {
+    width: 90%; /* Ajustar al ancho completo en pantallas pequeñas */
+    padding: 8px;
+  }
+
+  .stat-item {
+    padding: 8px; /* Ajusta el padding en pantallas más pequeñas */
+  }
+
+  .stat-text {
+    font-size: 16px; /* Reducir el tamaño de la fuente en móviles */
+  }
+
+  .button {
+    padding: 8px 16px; /* Ajustar el padding del botón en pantallas pequeñas */
+  }
+}

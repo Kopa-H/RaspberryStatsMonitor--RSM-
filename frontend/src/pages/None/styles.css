@@ -1,0 +1,36 @@
+.none-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+  background: linear-gradient(to bottom, #007bff, #1e90ff);
+}
+
+.return-home-button {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 40%;
+  height: 30%;
+
+  font-size: 1.5rem;
+  font-weight: bold;
+
+  background: #fe302cda;
+  color: white;
+
+  border: 2px solid black;
+  border-radius: 20px;
+
+  transition: all 0.3s;
+  cursor: pointer;
+}
+.return-home-button:hover {
+  transform: scale(1.1);
+}
+.return-home-button:active {
+  transform: scale(1.05);
+}

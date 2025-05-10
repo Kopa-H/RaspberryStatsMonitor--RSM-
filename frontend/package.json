@@ -1,0 +1,29 @@
+{
+  "name": "react-app",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^x.x.x",
+    "vite": "^5.4.9"
+  },
+  "dependencies": {
+    "@tsparticles/react": "^x.x.x",
+    "@tsparticles/slim": "^x.x.x",
+    "chart.js": "^4.4.5",
+    "os": "^0.1.2",
+    "react": "^18.3.1",
+    "react-chartjs-2": "^5.2.0",
+    "react-dom": "^18.0.0",
+    "react-router-dom": "^6.0.0",
+    "socket.io-client": "^4.8.0"
+  }
+}

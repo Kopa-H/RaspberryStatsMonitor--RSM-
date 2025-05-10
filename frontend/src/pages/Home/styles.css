@@ -1,0 +1,15 @@
+/* styles.css */
+body {
+    background-color: #000000e0;
+    color: black; /* Cambia el color del texto */
+    font-family: Arial, sans-serif; /* Establece la fuente */
+}
+
+.home-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* Para que el contenido comience desde arriba */
+    height: 100%; /* Ocupa toda la altura de la ventana */
+    width: 100%; /* Ocupa toda la anchura de la ventana */
+}
