@@ -9,7 +9,7 @@ import "./controllers/cronTasks.mjs";
 
 import dotenv from 'dotenv';
 dotenv.config();
-import { sendTelegramMessage } from '../../../kopahub_manager/bots/senderBot.mjs';
+import { sendTelegramMessage } from '../../kopahub_manager/bots/senderBot.mjs';
 const telegramBotToken = process.env.TELEGRAM_BOT_TOKEN;
 const chatId = process.env.TELEGRAM_CHAT_ID;
 
