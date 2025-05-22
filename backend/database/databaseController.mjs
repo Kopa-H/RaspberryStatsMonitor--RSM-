@@ -5,7 +5,12 @@ import path from 'path';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 
-import { sendTelegramMessage } from '../controllers/botManager.mjs';
+import dotenv from 'dotenv';
+dotenv.config();
+import { sendTelegramMessage } from '../../../kopahub_manager/bots/senderBot.mjs';
+const telegramBotToken = process.env.TELEGRAM_BOT_TOKEN;
+const chatId = process.env.TELEGRAM_CHAT_ID;
+
 import chalk from 'chalk';
 
 const { red, green } = chalk;
@@ -38,7 +43,7 @@ export function initDatabase() {
                 // Crear conexión a la base de datos
                 const db = new sqlite3.Database(dbPath, (err) => {
                     if (err) {
-                        sendTelegramMessage(`Error al conectar a la base de datos: ${err.message}`);
+                        sendTelegramMessage(`Error al conectar a la base de datos: ${err.message}`, telegramBotToken, chatId);
                         return console.error(red('Error al conectar a la base de datos:', err.message));
                     }
                     console.log(green('Conexión a la base de datos establecida.'));
@@ -59,7 +64,7 @@ export function initDatabase() {
                     )`, (err) => {
                         if (err) {
                             console.error(red('Error al crear la tabla:', err.message));
-                            sendTelegramMessage(`Error al crear la tabla 'performanceData': ${err.message}`);
+                            sendTelegramMessage(`Error al crear la tabla 'performanceData': ${err.message}`, telegramBotToken, chatId);
                         } else {
                             console.log(green("Tabla 'performanceData' creada con éxito."));
                         }
@@ -76,7 +81,7 @@ export function initDatabase() {
                 });
 
             } else {
-                sendTelegramMessage(`Error al verificar el archivo de la base de datos: ${err.message}`);
+                sendTelegramMessage(`Error al verificar el archivo de la base de datos: ${err.message}`, telegramBotToken, chatId);
                 console.error(red('Error al verificar el archivo de la base de datos:', err.message));
             }
         } else {
@@ -121,7 +126,7 @@ export function insertPerformanceData(data) {
             console.log(chalk.green(`Datos insertados con éxito con id ${this.lastID}.`));
             // Cada 100 datos insertados, enviar un mensaje a Telegram
             if (this.lastID % 50 === 0) {
-                sendTelegramMessage(`Datos de rendimiento insertados en la base de datos con id ${this.lastID}.`);
+                sendTelegramMessage(`Datos de rendimiento insertados en la base de datos con id ${this.lastID}.`, telegramBotToken, chatId);
             }
         }
     );
@@ -185,7 +190,7 @@ export function clearDatabase() {
             if (err) {
                 const errorMessage = `Error al conectar a la base de datos: ${err.message}`;
                 console.error(chalk.red('Error al eliminar la tabla:', err.message));
-                sendTelegramMessage(errorMessage);
+                sendTelegramMessage(errorMessage, telegramBotToken, chatId);
             } else {
                 console.log(chalk.green("Tabla 'performanceData' eliminada con éxito."));
             }
@@ -211,14 +216,14 @@ export function clearDatabase() {
         });
 
         const successMessage = 'Base de datos vaciada con éxito.';
-        sendTelegramMessage(successMessage);
+        sendTelegramMessage(successMessage, telegramBotToken, chatId);
     });
 
     db.close((err) => {
         if (err) {
             const errorMessage = `Error al cerrar la conexión a la base de datos: ${err.message}`;
             console.error(chalk.red('Error al cerrar la conexión a la base de datos:', err.message));
-            sendTelegramMessage(errorMessage);
+            sendTelegramMessage(errorMessage, telegramBotToken, chatId);
         } else {
             console.log(chalk.green('Conexión a la base de datos cerrada tras resetear la tabla.'));
         }
@@ -230,7 +235,7 @@ export function cleanDatabase() {
         if (err) {
             const errorMessage = `Error al conectar a la base de datos: ${err.message}`;
             console.error(chalk.red(errorMessage));
-            sendTelegramMessage(errorMessage); // Notificar error al conectar
+            sendTelegramMessage(errorMessage, telegramBotToken, chatId); // Notificar error al conectar
             return;
         }
         console.log(chalk.green('Conexión a la base de datos establecida para limpiar datos.'));
@@ -263,19 +268,19 @@ export function cleanDatabase() {
         .then(async count => {
             if (count === 0) {
                 console.log(chalk.yellow('No hay datos anteriores al día actual. No se requiere limpieza.'));
-                sendTelegramMessage('No hay datos anteriores al día actual. No se requiere limpieza.');
+                sendTelegramMessage('No hay datos anteriores al día actual. No se requiere limpieza.', telegramBotToken, chatId);
                 return closeDb(); // Cerramos la base de datos
             }
 
             // Si hay datos anteriores, proceder con la eliminación
             const successMessage = await deleteData();
             console.log(chalk.green(successMessage));
-            sendTelegramMessage(successMessage);
+            sendTelegramMessage(successMessage, telegramBotToken, chatId);
             return await closeDb();
         })
         .catch(err => {
             console.error(chalk.red(err));
-            sendTelegramMessage(err); // Notificar error
+            sendTelegramMessage(err, telegramBotToken, chatId); // Notificar error
             closeDb(); // Asegurarse de cerrar la base de datos en caso de error
         });
 }

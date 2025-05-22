@@ -1,12 +1,17 @@
 import osUtils from 'os-utils';
 import { getTemperature, getMemoryUsage, getDiskUsage, getNetworkLatency } from './getSystemInfo.mjs';
-import { sendTelegramMessage } from './botManager.mjs';  // Asegúrate de importar sendTelegram
+
+import dotenv from 'dotenv';
+dotenv.config();
+import { sendTelegramMessage } from '../../../kopahub_manager/bots/senderBot.mjs';
+const telegramBotToken = process.env.TELEGRAM_BOT_TOKEN;
+const chatId = process.env.TELEGRAM_CHAT_ID;
 
 // Función para obtener métricas de rendimiento constantemente
 export const getConstantPerformanceMetrics = async (socket) => {
   if (!socket) {
     console.error("Socket no definido");
-    await sendTelegramMessage("Error: Socket no definido");
+    await sendTelegramMessage("Error: Socket no definido", telegramBotToken, chatId);
     return;
   }
 
@@ -15,7 +20,7 @@ export const getConstantPerformanceMetrics = async (socket) => {
     socket.emit('performanceData', performanceData);
   } catch (error) {
     console.error(error);
-    await sendTelegramMessage(`Error en getConstantPerformanceMetrics: ${error.message}`);
+    await sendTelegramMessage(`Error en getConstantPerformanceMetrics: ${error.message}`, telegramBotToken, chatId);
   }
 };
 
@@ -48,7 +53,7 @@ export const fetchPerformanceMetrics = async () => {
     };
   } catch (error) {
     console.error("Error en fetchPerformanceMetrics:", error);
-    await sendTelegramMessage(`Error en fetchPerformanceMetrics: ${error.message}`);
+    await sendTelegramMessage(`Error en fetchPerformanceMetrics: ${error.message}`, telegramBotToken, chatId);
     throw error;
   }
 };
@@ -60,7 +65,7 @@ const getTemperatureAsync = () => {
       if (temperature === null) {
         const errorMsg = 'Error obteniendo la temperatura';
         console.error(errorMsg);
-        sendTelegramMessage(errorMsg);  // Log del error en Telegram
+        sendTelegramMessage(errorMsg, telegramBotToken, chatId);  // Log del error en Telegram
         reject(errorMsg);
       } else {
         resolve(temperature);

@@ -6,7 +6,13 @@ import { fetchPerformanceMetrics } from './controllers/fetchPerformanceMetrics.m
 import { initDatabase, insertPerformanceData, cleanDatabase } from './database/databaseController.mjs';
 import { initializeWebSocket } from './controllers/websocket.mjs';
 import "./controllers/cronTasks.mjs";
-import { sendTelegramMessage } from './controllers/botManager.mjs';
+
+import dotenv from 'dotenv';
+dotenv.config();
+import { sendTelegramMessage } from '../../../kopahub_manager/bots/senderBot.mjs';
+const telegramBotToken = process.env.TELEGRAM_BOT_TOKEN;
+const chatId = process.env.TELEGRAM_CHAT_ID;
+
 
 const PORT = 5001;
 const TIME_BETWEEN_DATA_STORAGE = 3 * 60 * 1000;  // x min * 60 seg/min * 1000 ms/seg
@@ -36,7 +42,7 @@ setInterval(async () => {
     const performanceData = await fetchPerformanceMetrics();
     insertPerformanceData(performanceData);
   } catch (error) {
-    sendTelegramMessage(`Error al obtener datos de rendimiento: ${error.message}`);
+    sendTelegramMessage(`Error al obtener datos de rendimiento: ${error.message}`, telegramBotToken, chatId);
     console.error(error);
   }
 }, TIME_BETWEEN_DATA_STORAGE);
